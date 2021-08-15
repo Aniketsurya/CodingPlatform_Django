@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+    
+    <title>Codegnan Python practice</title>
+</head>
+<body>
+    {% block content %}
+
+    <nav class="navbar navbar-light bg-light">
+        <form class="form-inline">
+            {% if user.is_authenticated %}
+
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="basic-addon1">@</span>
+            </div>
+            <input type="text" class="form-control" placeholder="{{request.user}}" aria-label="Username" aria-describedby="basic-addon1">
+            <a class = "btn btn-danger" href="{% url 'codingpractice:logout' %}">Logout</a>
+
+          </div>
+          {% else %}
+
+            <a href="{% url 'codingpractice:signup' %}"><button class="btn btn-primary" type="button">Sign Up</button></a>
+            <a href="{% url 'codingpractice:login' %}"></a><button class="btn btn-success" type="button">Login</button></a>
+          {% endif %}
+        </form>
+      </nav>
+
+      <br><br><br>
+
+    <div class="card" style="width: 18rem;margin: auto;padding: 70px 0;vertical-align:middle;">
+        <div class="card-body">
+          <h5 class="card-title">Login and start practicing</h5>
+          
+          
+          {% if form.errors %}
+            <p>Your username or password didn't match. Please try again.</p>
+            {% endif %}
+
+            {% if next %}
+                {% if user.is_authenticated %}
+                <p>Your account doesn't have access to this page. To proceed,
+                please login with an account that has access.</p>
+                {% else %}
+                <p>Please login to see this page.</p>
+                {% endif %}
+            {% endif %}
+
+            <form method="post">
+            {% csrf_token %}
+
+            <h5> UserName:  <input type="text" name="first_name"></h5><br>
+           <h5>Password: <input type="password" name="password1"></h5><br>
+            
+           <button type="submit" class="btn btn-success">Login</button>
+            <!--<input type="submit" value="login">-->
+            <input type="hidden" name="next" value="{{ next }}">
+            </form>
+
+          
+        
+        </div>
+      </div>
+
+      {% endblock %}
+</body>
+</html>
